@@ -1,0 +1,1752 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VoltMov España | Movilidad Eléctrica Premium</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --accent: #00E5A0;
+    --accent-dark: #00b87e;
+    --bg: #080808;
+    --bg2: #111111;
+    --bg3: #1a1a1a;
+    --border: rgba(255,255,255,0.08);
+    --text: #f0f0f0;
+    --muted: #888888;
+    --muted2: #555555;
+    --font-display: 'Syne', sans-serif;
+    --font-body: 'DM Sans', sans-serif;
+    --radius: 12px;
+    --radius-lg: 20px;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  a { text-decoration: none; color: inherit; }
+  img { display: block; max-width: 100%; }
+
+  /* ─── ANNOUNCEMENT BAR ─── */
+  .ann-bar {
+    background: var(--accent);
+    color: #001a10;
+    font-family: var(--font-body);
+    font-size: 13px;
+    font-weight: 500;
+    text-align: center;
+    padding: 10px 20px;
+    letter-spacing: 0.02em;
+    position: relative;
+    z-index: 200;
+  }
+  .ann-bar span { margin: 0 24px; }
+  .ann-bar .sep { opacity: 0.5; }
+
+  /* ─── HEADER ─── */
+  header {
+    position: fixed;
+    top: 36px;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    padding: 0 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 70px;
+    transition: background 0.4s, backdrop-filter 0.4s, top 0.3s;
+  }
+  header.scrolled {
+    top: 0;
+    background: rgba(8,8,8,0.92);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+  }
+  .logo {
+    font-family: var(--font-display);
+    font-size: 24px;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .logo-dot { color: var(--accent); }
+
+  nav { display: flex; gap: 36px; align-items: center; }
+  nav a {
+    font-size: 14px;
+    font-weight: 500;
+    color: rgba(255,255,255,0.75);
+    letter-spacing: 0.01em;
+    transition: color 0.2s;
+    position: relative;
+  }
+  nav a::after {
+    content: '';
+    position: absolute;
+    bottom: -3px;
+    left: 0; right: 0;
+    height: 1px;
+    background: var(--accent);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.25s;
+  }
+  nav a:hover { color: #fff; }
+  nav a:hover::after { transform: scaleX(1); }
+
+  .header-right { display: flex; align-items: center; gap: 16px; }
+  .btn-cart {
+    position: relative;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--text);
+    font-size: 22px;
+    display: flex;
+    align-items: center;
+  }
+  .cart-count {
+    position: absolute;
+    top: -6px; right: -8px;
+    background: var(--accent);
+    color: #001a10;
+    font-size: 10px;
+    font-weight: 700;
+    width: 16px; height: 16px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .btn-primary {
+    background: var(--accent);
+    color: #001a10;
+    font-family: var(--font-body);
+    font-size: 14px;
+    font-weight: 600;
+    padding: 10px 22px;
+    border-radius: 50px;
+    border: none;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.15s;
+    letter-spacing: 0.01em;
+  }
+  .btn-primary:hover { background: #00ffb3; transform: translateY(-1px); }
+
+  /* ─── HERO ─── */
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    padding: 140px 80px 80px;
+  }
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, #000 0%, #0a1a0f 40%, #080808 100%);
+  }
+  .hero-bg-img {
+    position: absolute;
+    inset: 0;
+    background-image: url('https://store.segway.com/cdn/shop/files/kickscooter-max-g2-hero.jpg');
+    background-size: cover;
+    background-position: center right;
+    opacity: 0.35;
+  }
+  .hero-glow {
+    position: absolute;
+    top: 20%;
+    right: 5%;
+    width: 600px; height: 600px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(0,229,160,0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 700px;
+  }
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(0,229,160,0.1);
+    border: 1px solid rgba(0,229,160,0.3);
+    color: var(--accent);
+    font-size: 13px;
+    font-weight: 500;
+    padding: 6px 16px;
+    border-radius: 50px;
+    margin-bottom: 28px;
+    letter-spacing: 0.03em;
+  }
+  .hero-badge::before { content: '●'; font-size: 8px; animation: pulse-dot 2s infinite; }
+  @keyframes pulse-dot {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+  .hero h1 {
+    font-family: var(--font-display);
+    font-size: clamp(52px, 7vw, 96px);
+    font-weight: 800;
+    line-height: 0.95;
+    letter-spacing: -0.03em;
+    margin-bottom: 28px;
+  }
+  .hero h1 em {
+    font-style: normal;
+    color: var(--accent);
+    display: block;
+  }
+  .hero p {
+    font-size: 18px;
+    color: rgba(255,255,255,0.6);
+    line-height: 1.7;
+    max-width: 500px;
+    margin-bottom: 44px;
+    font-weight: 300;
+  }
+  .hero-cta {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  .btn-outline {
+    background: none;
+    border: 1px solid rgba(255,255,255,0.3);
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 14px;
+    font-weight: 500;
+    padding: 12px 28px;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .btn-outline:hover { border-color: rgba(255,255,255,0.6); background: rgba(255,255,255,0.05); }
+  .btn-lg {
+    font-size: 15px;
+    padding: 14px 36px;
+  }
+  .hero-stats {
+    position: absolute;
+    bottom: 60px;
+    left: 80px;
+    right: 80px;
+    display: flex;
+    gap: 1px;
+    z-index: 2;
+  }
+  .hero-stat {
+    flex: 1;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--border);
+    padding: 20px 28px;
+    backdrop-filter: blur(10px);
+  }
+  .hero-stat:first-child { border-radius: var(--radius) 0 0 var(--radius); }
+  .hero-stat:last-child { border-radius: 0 var(--radius) var(--radius) 0; }
+  .hero-stat .num {
+    font-family: var(--font-display);
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--accent);
+    display: block;
+  }
+  .hero-stat .label { font-size: 13px; color: var(--muted); }
+
+  /* ─── MARQUEE ─── */
+  .marquee-wrap {
+    background: var(--accent);
+    padding: 14px 0;
+    overflow: hidden;
+    position: relative;
+  }
+  .marquee-track {
+    display: flex;
+    gap: 48px;
+    white-space: nowrap;
+    animation: marquee 22s linear infinite;
+  }
+  @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+  .marquee-item {
+    font-family: var(--font-display);
+    font-size: 14px;
+    font-weight: 700;
+    color: #001a10;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    display: flex; align-items: center; gap: 12px;
+    flex-shrink: 0;
+  }
+  .marquee-item::after { content: '✦'; font-size: 10px; }
+
+  /* ─── SECTION BASICS ─── */
+  section { padding: 100px 80px; }
+  .section-label {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 14px;
+    display: block;
+  }
+  .section-title {
+    font-family: var(--font-display);
+    font-size: clamp(36px, 4vw, 56px);
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: -0.025em;
+    margin-bottom: 16px;
+  }
+  .section-sub {
+    font-size: 17px;
+    color: rgba(255,255,255,0.5);
+    font-weight: 300;
+    max-width: 500px;
+    line-height: 1.7;
+  }
+  .section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 56px;
+    gap: 40px;
+  }
+  .link-arrow {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 14px;
+    color: var(--accent);
+    font-weight: 500;
+    white-space: nowrap;
+    transition: gap 0.2s;
+  }
+  .link-arrow:hover { gap: 10px; }
+
+  /* ─── CATEGORIES ─── */
+  .categories { background: var(--bg2); }
+  .cat-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+  }
+  .cat-card {
+    position: relative;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    aspect-ratio: 4/5;
+    cursor: pointer;
+    border: 1px solid var(--border);
+    transition: transform 0.35s, border-color 0.3s;
+    background: var(--bg3);
+  }
+  .cat-card:hover { transform: translateY(-6px); border-color: rgba(0,229,160,0.3); }
+  .cat-card img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s;
+    filter: brightness(0.75);
+  }
+  .cat-card:hover img { transform: scale(1.05); filter: brightness(0.85); }
+  .cat-card .cat-info {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    padding: 28px 24px 24px;
+    background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, transparent 100%);
+  }
+  .cat-info .cat-name {
+    font-family: var(--font-display);
+    font-size: 22px;
+    font-weight: 700;
+    display: block;
+    margin-bottom: 6px;
+  }
+  .cat-info .cat-count { font-size: 13px; color: rgba(255,255,255,0.55); }
+  .cat-tag {
+    position: absolute;
+    top: 16px; left: 16px;
+    background: rgba(0,0,0,0.6);
+    border: 1px solid var(--border);
+    backdrop-filter: blur(8px);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 4px 12px;
+    border-radius: 50px;
+    color: var(--accent);
+  }
+
+  /* ─── PRODUCTS ─── */
+  .products { background: var(--bg); }
+  .products-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+  }
+  .product-card {
+    background: var(--bg2);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    border: 1px solid var(--border);
+    cursor: pointer;
+    transition: border-color 0.3s, transform 0.3s;
+    position: relative;
+  }
+  .product-card:hover { border-color: rgba(0,229,160,0.25); transform: translateY(-4px); }
+  .product-img {
+    aspect-ratio: 1;
+    overflow: hidden;
+    background: linear-gradient(135deg, #141414, #0f1a12);
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .product-img img {
+    width: 85%;
+    height: 85%;
+    object-fit: contain;
+    transition: transform 0.5s;
+    filter: drop-shadow(0 20px 40px rgba(0,229,160,0.1));
+  }
+  .product-card:hover .product-img img { transform: scale(1.06) translateY(-4px); }
+  .prod-badge {
+    position: absolute;
+    top: 14px; left: 14px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 50px;
+  }
+  .badge-new { background: var(--accent); color: #001a10; }
+  .badge-hot { background: #ff4d4d; color: #fff; }
+  .badge-sale { background: #ff9900; color: #1a0a00; }
+  .wishlist-btn {
+    position: absolute;
+    top: 14px; right: 14px;
+    background: rgba(0,0,0,0.5);
+    border: 1px solid var(--border);
+    border-radius: 50%;
+    width: 34px; height: 34px;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    transition: background 0.2s, border-color 0.2s;
+    color: var(--muted);
+    font-size: 16px;
+  }
+  .wishlist-btn.active { color: #ff4d4d; }
+  .wishlist-btn:hover { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.2); }
+  .product-info { padding: 20px; }
+  .product-brand { font-size: 11px; color: var(--accent); font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 6px; }
+  .product-name { font-family: var(--font-display); font-size: 17px; font-weight: 700; margin-bottom: 8px; line-height: 1.25; }
+  .product-specs {
+    display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 14px;
+  }
+  .spec-pill {
+    font-size: 11px;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid var(--border);
+    color: var(--muted);
+    padding: 3px 10px;
+    border-radius: 50px;
+  }
+  .product-bottom { display: flex; align-items: center; justify-content: space-between; margin-top: 16px; }
+  .product-price { font-family: var(--font-display); font-size: 22px; font-weight: 700; }
+  .price-old { font-size: 13px; color: var(--muted2); text-decoration: line-through; margin-left: 6px; font-family: var(--font-body); font-weight: 400; }
+  .add-btn {
+    background: var(--accent);
+    color: #001a10;
+    border: none;
+    border-radius: 50px;
+    width: 38px; height: 38px;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    font-size: 22px;
+    font-weight: 300;
+    transition: background 0.2s, transform 0.15s;
+    line-height: 1;
+  }
+  .add-btn:hover { background: #00ffb3; transform: scale(1.08); }
+
+  /* ─── FEATURE BANNER ─── */
+  .feature-banner {
+    background: var(--bg2);
+    position: relative;
+    overflow: hidden;
+    padding: 0 80px;
+    min-height: 560px;
+    display: flex;
+    align-items: center;
+    gap: 80px;
+  }
+  .feature-banner-bg {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 60% 80% at 70% 50%, rgba(0,229,160,0.06) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .feature-banner-content { flex: 1; position: relative; z-index: 2; }
+  .feature-banner-img {
+    flex: 1;
+    position: relative;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 560px;
+  }
+  .feature-banner-img img {
+    width: 100%;
+    max-width: 520px;
+    object-fit: contain;
+    filter: drop-shadow(0 40px 80px rgba(0,229,160,0.15));
+    animation: float 5s ease-in-out infinite;
+  }
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-12px); }
+  }
+  .features-list { list-style: none; margin-top: 36px; display: flex; flex-direction: column; gap: 16px; }
+  .features-list li {
+    display: flex; align-items: flex-start; gap: 14px;
+    font-size: 15px; color: rgba(255,255,255,0.7);
+  }
+  .feat-icon {
+    flex-shrink: 0;
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    background: rgba(0,229,160,0.1);
+    border: 1px solid rgba(0,229,160,0.25);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px;
+    margin-top: -2px;
+  }
+  .feat-text strong { display: block; color: #fff; margin-bottom: 2px; font-size: 15px; }
+
+  /* ─── WHY US ─── */
+  .why-us { background: var(--bg); }
+  .why-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin-top: 60px;
+  }
+  .why-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 36px 32px;
+    transition: border-color 0.3s, transform 0.3s;
+  }
+  .why-card:hover { border-color: rgba(0,229,160,0.2); transform: translateY(-4px); }
+  .why-icon { font-size: 36px; margin-bottom: 20px; display: block; }
+  .why-card h3 { font-family: var(--font-display); font-size: 20px; font-weight: 700; margin-bottom: 10px; }
+  .why-card p { font-size: 14px; color: rgba(255,255,255,0.5); line-height: 1.7; }
+  .why-card .why-num {
+    font-family: var(--font-display);
+    font-size: 60px;
+    font-weight: 800;
+    color: rgba(0,229,160,0.08);
+    position: absolute;
+    top: 20px; right: 24px;
+    line-height: 1;
+    pointer-events: none;
+  }
+  .why-card { position: relative; }
+
+  /* ─── PROMO STRIP ─── */
+  .promo-strip {
+    background: linear-gradient(135deg, #001a10 0%, #002918 50%, #001a10 100%);
+    border-top: 1px solid rgba(0,229,160,0.15);
+    border-bottom: 1px solid rgba(0,229,160,0.15);
+    padding: 70px 80px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+    position: relative;
+    overflow: hidden;
+  }
+  .promo-strip::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 20% 50%, rgba(0,229,160,0.08) 0%, transparent 50%);
+  }
+  .promo-left { position: relative; z-index: 2; }
+  .promo-timer { display: flex; gap: 12px; margin-top: 24px; }
+  .timer-box {
+    background: rgba(0,0,0,0.4);
+    border: 1px solid rgba(0,229,160,0.3);
+    border-radius: var(--radius);
+    padding: 14px 18px;
+    text-align: center;
+    min-width: 72px;
+  }
+  .timer-box .t-num { font-family: var(--font-display); font-size: 32px; font-weight: 800; color: var(--accent); display: block; line-height: 1; }
+  .timer-box .t-lbl { font-size: 11px; color: var(--muted); margin-top: 4px; letter-spacing: 0.06em; text-transform: uppercase; }
+  .promo-offer { position: relative; z-index: 2; text-align: right; }
+  .promo-price-big { font-family: var(--font-display); font-size: 64px; font-weight: 800; color: var(--accent); line-height: 1; }
+  .promo-product-name { font-size: 14px; color: var(--muted); margin-top: 4px; }
+
+  /* ─── TESTIMONIALS ─── */
+  .testimonials { background: var(--bg2); }
+  .testi-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .testi-card {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 28px 26px;
+  }
+  .stars { color: var(--accent); font-size: 16px; letter-spacing: 2px; margin-bottom: 16px; }
+  .testi-text { font-size: 14px; color: rgba(255,255,255,0.7); line-height: 1.7; margin-bottom: 20px; }
+  .testi-author { display: flex; align-items: center; gap: 12px; }
+  .testi-avatar {
+    width: 42px; height: 42px; border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid rgba(0,229,160,0.3);
+  }
+  .testi-name { font-family: var(--font-display); font-size: 14px; font-weight: 700; }
+  .testi-loc { font-size: 12px; color: var(--muted); }
+  .testi-verified { font-size: 11px; color: var(--accent); margin-top: 3px; }
+
+  /* ─── COMPARISON TABLE ─── */
+  .comparison { background: var(--bg); }
+  .comp-table { width: 100%; border-collapse: collapse; margin-top: 48px; }
+  .comp-table th, .comp-table td {
+    padding: 16px 24px;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+    font-size: 14px;
+  }
+  .comp-table thead tr {
+    background: var(--bg2);
+  }
+  .comp-table th {
+    font-family: var(--font-display);
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text);
+    border-bottom: 1px solid rgba(0,229,160,0.3);
+  }
+  .comp-table th:first-child { color: var(--muted); font-size: 13px; font-weight: 400; }
+  .comp-table tr:last-child td { border-bottom: none; }
+  .comp-table tbody tr:hover { background: rgba(255,255,255,0.02); }
+  .comp-table td:first-child { color: var(--muted); font-size: 13px; }
+  .check { color: var(--accent); font-size: 16px; }
+  .cross { color: var(--muted2); font-size: 16px; }
+  .highlighted-col { background: rgba(0,229,160,0.04); }
+  .comp-table th.highlighted-col { background: rgba(0,229,160,0.1); color: var(--accent); }
+  .col-tag { font-size: 10px; display: block; background: var(--accent); color: #001a10; padding: 2px 8px; border-radius: 50px; margin-top: 4px; width: fit-content; }
+
+  /* ─── NEWSLETTER ─── */
+  .newsletter {
+    background: var(--bg2);
+    text-align: center;
+    padding: 100px 80px;
+  }
+  .newsletter .section-title { margin: 0 auto 16px; }
+  .newsletter .section-sub { margin: 0 auto 40px; text-align: center; }
+  .nl-form {
+    display: flex;
+    max-width: 480px;
+    margin: 0 auto;
+    gap: 0;
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 50px;
+    overflow: hidden;
+    background: rgba(255,255,255,0.04);
+    padding: 5px 5px 5px 20px;
+  }
+  .nl-form input {
+    flex: 1;
+    background: none;
+    border: none;
+    outline: none;
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 14px;
+  }
+  .nl-form input::placeholder { color: var(--muted); }
+
+  /* ─── FOOTER ─── */
+  footer {
+    background: var(--bg);
+    border-top: 1px solid var(--border);
+    padding: 70px 80px 40px;
+  }
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 60px;
+    margin-bottom: 60px;
+  }
+  .footer-brand .logo { margin-bottom: 16px; display: inline-flex; }
+  .footer-brand p { font-size: 13px; color: var(--muted); line-height: 1.7; max-width: 280px; }
+  .footer-socials { display: flex; gap: 10px; margin-top: 24px; }
+  .social-btn {
+    width: 38px; height: 38px;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px;
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .social-btn:hover { border-color: rgba(0,229,160,0.4); background: rgba(0,229,160,0.05); }
+  .footer-col h4 { font-family: var(--font-display); font-size: 14px; font-weight: 700; margin-bottom: 20px; color: #fff; }
+  .footer-col ul { list-style: none; }
+  .footer-col ul li { margin-bottom: 12px; }
+  .footer-col ul li a { font-size: 13px; color: var(--muted); transition: color 0.2s; }
+  .footer-col ul li a:hover { color: var(--accent); }
+  .footer-bottom {
+    border-top: 1px solid var(--border);
+    padding-top: 28px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+  }
+  .footer-bottom p { font-size: 12px; color: var(--muted2); }
+  .footer-payments { display: flex; gap: 8px; }
+  .pay-chip {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 4px 10px;
+    font-size: 11px;
+    color: var(--muted);
+    font-weight: 500;
+  }
+
+  /* ─── MOBILE NAV TOGGLE ─── */
+  .burger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+    padding: 4px;
+  }
+  .burger span {
+    display: block;
+    width: 22px; height: 2px;
+    background: var(--text);
+    border-radius: 2px;
+    transition: all 0.3s;
+  }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 1100px) {
+    .cat-grid { grid-template-columns: repeat(2, 1fr); }
+    .products-grid { grid-template-columns: repeat(2, 1fr); }
+    .testi-grid { grid-template-columns: 1fr 1fr; }
+    .comp-table { font-size: 12px; }
+    .comp-table th, .comp-table td { padding: 12px 14px; }
+    .feature-banner { flex-direction: column; text-align: center; min-height: auto; padding: 80px; }
+    .feature-banner-img { min-height: 300px; }
+    .footer-grid { grid-template-columns: 1fr 1fr; gap: 40px; }
+  }
+  @media (max-width: 768px) {
+    header { padding: 0 20px; }
+    section { padding: 70px 24px; }
+    .hero { padding: 120px 24px 80px; }
+    .hero-stats { left: 24px; right: 24px; flex-wrap: wrap; }
+    .hero-stat { flex: 1 1 40%; }
+    .hero-stat:first-child, .hero-stat:last-child { border-radius: 0; }
+    nav { display: none; }
+    .burger { display: flex; }
+    .cat-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+    .products-grid { grid-template-columns: 1fr 1fr; gap: 12px; }
+    .testi-grid { grid-template-columns: 1fr; }
+    .why-grid { grid-template-columns: 1fr; }
+    .feature-banner { padding: 60px 24px; }
+    .promo-strip { flex-direction: column; padding: 60px 24px; text-align: center; }
+    .promo-offer { text-align: center; }
+    .newsletter { padding: 70px 24px; }
+    footer { padding: 60px 24px 30px; }
+    .footer-grid { grid-template-columns: 1fr; gap: 32px; }
+    .footer-bottom { flex-direction: column; text-align: center; }
+    .section-header { flex-direction: column; align-items: flex-start; gap: 16px; }
+    .ann-bar span:not(:first-child) { display: none; }
+  }
+
+  /* ─── ANIMATIONS ─── */
+  .fade-up {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .fade-up.visible { opacity: 1; transform: translateY(0); }
+  .stagger-1 { transition-delay: 0.1s; }
+  .stagger-2 { transition-delay: 0.2s; }
+  .stagger-3 { transition-delay: 0.3s; }
+  .stagger-4 { transition-delay: 0.4s; }
+
+  /* ─── MOBILE MENU ─── */
+  .mobile-menu {
+    position: fixed;
+    inset: 0;
+    background: rgba(8,8,8,0.98);
+    z-index: 99;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 36px;
+    transform: translateX(100%);
+    transition: transform 0.4s cubic-bezier(0.4,0,0.2,1);
+  }
+  .mobile-menu.open { transform: translateX(0); }
+  .mobile-menu a {
+    font-family: var(--font-display);
+    font-size: 36px;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    color: rgba(255,255,255,0.7);
+    transition: color 0.2s;
+  }
+  .mobile-menu a:hover { color: var(--accent); }
+  .mobile-close {
+    position: absolute;
+    top: 24px; right: 20px;
+    font-size: 28px;
+    background: none;
+    border: none;
+    color: var(--text);
+    cursor: pointer;
+  }
+
+  /* ─── CART DRAWER ─── */
+  .cart-drawer {
+    position: fixed;
+    top: 0; right: 0; bottom: 0;
+    width: 380px;
+    background: var(--bg2);
+    border-left: 1px solid var(--border);
+    z-index: 200;
+    transform: translateX(100%);
+    transition: transform 0.4s cubic-bezier(0.4,0,0.2,1);
+    display: flex;
+    flex-direction: column;
+  }
+  .cart-drawer.open { transform: translateX(0); }
+  .cart-header {
+    padding: 24px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .cart-header h3 { font-family: var(--font-display); font-size: 18px; font-weight: 700; }
+  .cart-close { background: none; border: none; color: var(--muted); font-size: 22px; cursor: pointer; }
+  .cart-items { flex: 1; overflow-y: auto; padding: 20px; }
+  .cart-item {
+    display: flex; gap: 16px; align-items: center;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .cart-item-img {
+    width: 70px; height: 70px;
+    background: var(--bg3);
+    border-radius: var(--radius);
+    overflow: hidden;
+    flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .cart-item-img img { width: 90%; object-fit: contain; }
+  .cart-item-info { flex: 1; }
+  .cart-item-name { font-size: 14px; font-weight: 500; margin-bottom: 4px; }
+  .cart-item-price { font-size: 15px; font-weight: 700; color: var(--accent); }
+  .cart-item-qty {
+    display: flex; align-items: center; gap: 8px; margin-top: 8px;
+  }
+  .qty-btn {
+    width: 26px; height: 26px; border-radius: 50%;
+    background: var(--bg3); border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; font-size: 16px; color: var(--text);
+    transition: background 0.2s;
+  }
+  .qty-btn:hover { background: rgba(0,229,160,0.1); border-color: rgba(0,229,160,0.3); }
+  .qty-num { font-size: 14px; font-weight: 500; min-width: 20px; text-align: center; }
+  .cart-footer { padding: 20px 24px; border-top: 1px solid var(--border); }
+  .cart-total { display: flex; justify-content: space-between; margin-bottom: 16px; }
+  .cart-total span:first-child { color: var(--muted); font-size: 14px; }
+  .cart-total span:last-child { font-family: var(--font-display); font-size: 20px; font-weight: 700; }
+  .overlay {
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.7);
+    z-index: 150;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s;
+  }
+  .overlay.show { opacity: 1; pointer-events: all; }
+
+  /* ─── TOAST ─── */
+  .toast {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    background: var(--accent);
+    color: #001a10;
+    font-weight: 600;
+    font-size: 14px;
+    padding: 12px 24px;
+    border-radius: 50px;
+    z-index: 999;
+    opacity: 0;
+    transition: opacity 0.3s, transform 0.3s;
+    white-space: nowrap;
+  }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+  /* ─── FILTER TABS ─── */
+  .filter-tabs {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 40px;
+  }
+  .filter-tab {
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    font-family: var(--font-body);
+    font-size: 13px;
+    font-weight: 500;
+    padding: 8px 18px;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.2s;
+    letter-spacing: 0.01em;
+  }
+  .filter-tab.active, .filter-tab:hover {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #001a10;
+  }
+
+  /* trust bar */
+  .trust-bar {
+    background: var(--bg3);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    padding: 28px 80px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    gap: 30px;
+    flex-wrap: wrap;
+  }
+  .trust-item { display: flex; align-items: center; gap: 12px; }
+  .trust-icon { font-size: 26px; }
+  .trust-text strong { display: block; font-size: 14px; font-weight: 600; }
+  .trust-text span { font-size: 12px; color: var(--muted); }
+</style>
+</head>
+<body>
+
+<!-- TOAST -->
+<div class="toast" id="toast">✓ Producto añadido al carrito</div>
+
+<!-- OVERLAY -->
+<div class="overlay" id="overlay" onclick="closeCart()"></div>
+
+<!-- CART DRAWER -->
+<div class="cart-drawer" id="cartDrawer">
+  <div class="cart-header">
+    <h3>Tu carrito (<span id="cartCountLabel">0</span>)</h3>
+    <button class="cart-close" onclick="closeCart()">✕</button>
+  </div>
+  <div class="cart-items" id="cartItems">
+    <p style="color:var(--muted);font-size:14px;text-align:center;padding:40px 0">Tu carrito está vacío</p>
+  </div>
+  <div class="cart-footer">
+    <div class="cart-total">
+      <span>Total</span>
+      <span id="cartTotal">0,00€</span>
+    </div>
+    <button class="btn-primary btn-lg" style="width:100%;border-radius:12px;display:block;text-align:center" onclick="showToast('Procesando pedido...')">
+      Finalizar compra →
+    </button>
+    <p style="font-size:11px;color:var(--muted);text-align:center;margin-top:10px">Envío gratis · Pago seguro SSL</p>
+  </div>
+</div>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <button class="mobile-close" onclick="closeMobileMenu()">✕</button>
+  <a href="#categorias" onclick="closeMobileMenu()">Patinetes</a>
+  <a href="#productos" onclick="closeMobileMenu()">Productos</a>
+  <a href="#comparativa" onclick="closeMobileMenu()">Comparativa</a>
+  <a href="#nosotros" onclick="closeMobileMenu()">Sobre Nosotros</a>
+  <button class="btn-primary btn-lg" onclick="closeMobileMenu()">Ver Oferta</button>
+</div>
+
+<!-- ANNOUNCEMENT BAR -->
+<div class="ann-bar">
+  <span>🚚 Envío gratis en pedidos +299€</span>
+  <span class="sep">|</span>
+  <span>🛡️ Garantía oficial 2 años</span>
+  <span class="sep">|</span>
+  <span>⚡ Entrega en 24-48h en España</span>
+</div>
+
+<!-- HEADER -->
+<header id="mainHeader">
+  <a href="#" class="logo">Volt<span class="logo-dot">Mov</span></a>
+  <nav>
+    <a href="#categorias">Patinetes</a>
+    <a href="#productos">Productos</a>
+    <a href="#comparativa">Comparativa</a>
+    <a href="#nosotros">Sobre Nosotros</a>
+  </nav>
+  <div class="header-right">
+    <button class="btn-cart" onclick="openCart()">
+      🛒
+      <span class="cart-count" id="headerCartCount">0</span>
+    </button>
+    <button class="btn-primary" onclick="document.getElementById('productos').scrollIntoView({behavior:'smooth'})">Comprar Ahora</button>
+    <div class="burger" id="burgerBtn" onclick="openMobileMenu()">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero" id="inicio">
+  <div class="hero-bg"></div>
+  <div class="hero-bg-img"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-content">
+    <div class="hero-badge">Nueva colección 2025</div>
+    <h1>
+      Muévete
+      <em>Sin Límites</em>
+    </h1>
+    <p>Patinetes eléctricos premium para la ciudad española. Diseñados para el futuro, disponibles hoy.</p>
+    <div class="hero-cta">
+      <button class="btn-primary btn-lg" onclick="document.getElementById('productos').scrollIntoView({behavior:'smooth'})">Ver Productos →</button>
+      <button class="btn-outline" onclick="document.getElementById('comparativa').scrollIntoView({behavior:'smooth'})">Comparar Modelos</button>
+    </div>
+  </div>
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <span class="num">65 km/h</span>
+      <span class="label">Velocidad máxima</span>
+    </div>
+    <div class="hero-stat">
+      <span class="num">100 km</span>
+      <span class="label">Autonomía máxima</span>
+    </div>
+    <div class="hero-stat">
+      <span class="num">+50.000</span>
+      <span class="label">Clientes en España</span>
+    </div>
+    <div class="hero-stat">
+      <span class="num">4.9 ★</span>
+      <span class="label">Valoración media</span>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-wrap">
+  <div class="marquee-track">
+    <span class="marquee-item">Envío 24-48h España</span>
+    <span class="marquee-item">Garantía 2 años</span>
+    <span class="marquee-item">Pago a plazos disponible</span>
+    <span class="marquee-item">Homologado DGT</span>
+    <span class="marquee-item">App conectada iOS & Android</span>
+    <span class="marquee-item">Servicio técnico oficial</span>
+    <span class="marquee-item">Envío 24-48h España</span>
+    <span class="marquee-item">Garantía 2 años</span>
+    <span class="marquee-item">Pago a plazos disponible</span>
+    <span class="marquee-item">Homologado DGT</span>
+    <span class="marquee-item">App conectada iOS & Android</span>
+    <span class="marquee-item">Servicio técnico oficial</span>
+  </div>
+</div>
+
+<!-- TRUST BAR -->
+<div class="trust-bar">
+  <div class="trust-item">
+    <span class="trust-icon">🚚</span>
+    <div class="trust-text">
+      <strong>Envío Express</strong>
+      <span>24-48h en toda España</span>
+    </div>
+  </div>
+  <div class="trust-item">
+    <span class="trust-icon">🔒</span>
+    <div class="trust-text">
+      <strong>Pago Seguro</strong>
+      <span>SSL · Tarjeta · Bizum · Aplazame</span>
+    </div>
+  </div>
+  <div class="trust-item">
+    <span class="trust-icon">🛡️</span>
+    <div class="trust-text">
+      <strong>Garantía Oficial</strong>
+      <span>2 años con soporte en España</span>
+    </div>
+  </div>
+  <div class="trust-item">
+    <span class="trust-icon">↩️</span>
+    <div class="trust-text">
+      <strong>30 días gratis</strong>
+      <span>Devolución sin preguntas</span>
+    </div>
+  </div>
+  <div class="trust-item">
+    <span class="trust-icon">📞</span>
+    <div class="trust-text">
+      <strong>Soporte 24/7</strong>
+      <span>Chat · WhatsApp · Email</span>
+    </div>
+  </div>
+</div>
+
+<!-- CATEGORIES -->
+<section class="categories" id="categorias">
+  <div class="section-header">
+    <div>
+      <span class="section-label">Catálogo</span>
+      <h2 class="section-title">Explora por<br>categoría</h2>
+    </div>
+    <a href="#productos" class="link-arrow">Ver todo el catálogo →</a>
+  </div>
+  <div class="cat-grid">
+    <div class="cat-card fade-up">
+      <img src="https://cdn.shopify.com/s/files/1/0739/9293/files/KickScooter_MAX_G2.png?v=1689245210" 
+           onerror="this.style.background='linear-gradient(135deg,#0a1a10,#111)';this.style.minHeight='200px'"
+           alt="Patinetes Eléctricos" loading="lazy">
+      <span class="cat-tag">Más vendido</span>
+      <div class="cat-info">
+        <span class="cat-name">Patinetes Eléctricos</span>
+        <span class="cat-count">18 modelos desde 299€</span>
+      </div>
+    </div>
+    <div class="cat-card fade-up stagger-1">
+      <img src="https://cdn.shopify.com/s/files/1/0739/9293/files/Ninebot_eMoped_C80.png?v=1689245210"
+           onerror="this.style.background='linear-gradient(135deg,#1a0a10,#111)';this.style.minHeight='200px'"
+           alt="eMopeds" loading="lazy">
+      <span class="cat-tag">Nuevo</span>
+      <div class="cat-info">
+        <span class="cat-name">eMopeds</span>
+        <span class="cat-count">6 modelos desde 1.499€</span>
+      </div>
+    </div>
+    <div class="cat-card fade-up stagger-2">
+      <img src="https://cdn.shopify.com/s/files/1/0739/9293/files/Ninebot_S2.png?v=1689245210"
+           onerror="this.style.background='linear-gradient(135deg,#0a0a1a,#111)';this.style.minHeight='200px'"
+           alt="Autoequilibrio" loading="lazy">
+      <div class="cat-info">
+        <span class="cat-name">Autoequilibrio</span>
+        <span class="cat-count">4 modelos desde 499€</span>
+      </div>
+    </div>
+    <div class="cat-card fade-up stagger-3">
+      <img src="https://cdn.shopify.com/s/files/1/0739/9293/files/GoKart_Pro_2.png?v=1689245210"
+           onerror="this.style.background='linear-gradient(135deg,#1a1000,#111)';this.style.minHeight='200px'"
+           alt="GoKarts & Accesorios" loading="lazy">
+      <span class="cat-tag">Oferta</span>
+      <div class="cat-info">
+        <span class="cat-name">GoKart & Accesorios</span>
+        <span class="cat-count">Hasta 30% dto esta semana</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRODUCTS -->
+<section class="products" id="productos">
+  <div class="section-header">
+    <div>
+      <span class="section-label">Más populares</span>
+      <h2 class="section-title">Productos<br>destacados</h2>
+    </div>
+  </div>
+
+  <div class="filter-tabs">
+    <button class="filter-tab active" onclick="filterProducts('todos', this)">Todos</button>
+    <button class="filter-tab" onclick="filterProducts('patinete', this)">Patinetes</button>
+    <button class="filter-tab" onclick="filterProducts('moped', this)">eMopeds</button>
+    <button class="filter-tab" onclick="filterProducts('gokart', this)">GoKart</button>
+    <button class="filter-tab" onclick="filterProducts('accesorio', this)">Accesorios</button>
+  </div>
+
+  <div class="products-grid" id="productsGrid">
+    <!-- Products are rendered via JS -->
+  </div>
+</section>
+
+<!-- FEATURE BANNER -->
+<div class="feature-banner">
+  <div class="feature-banner-bg"></div>
+  <div class="feature-banner-content fade-up">
+    <span class="section-label">Tecnología</span>
+    <h2 class="section-title" style="max-width:480px">Rendimiento que se siente en cada kilómetro</h2>
+    <p style="color:rgba(255,255,255,0.5);font-size:16px;font-weight:300;line-height:1.7;max-width:440px;margin-top:12px">
+      Nuestros patinetes integran la última tecnología de baterías BMS de 4ª generación, frenado regenerativo y conectividad inteligente con tu smartphone.
+    </p>
+    <ul class="features-list">
+      <li>
+        <span class="feat-icon">⚡</span>
+        <div class="feat-text">
+          <strong>Batería de larga duración</strong>
+          Hasta 100 km con una sola carga. Recarga rápida en 4 horas.
+        </div>
+      </li>
+      <li>
+        <span class="feat-icon">📱</span>
+        <div class="feat-text">
+          <strong>App VoltMov Connect</strong>
+          Controla velocidad, estadísticas, bloqueo y actualizaciones OTA.
+        </div>
+      </li>
+      <li>
+        <span class="feat-icon">🛡️</span>
+        <div class="feat-text">
+          <strong>Certificado IP54 + DGT</strong>
+          Resistente al agua y polvo. Homologado para circular en España.
+        </div>
+      </li>
+      <li>
+        <span class="feat-icon">🔧</span>
+        <div class="feat-text">
+          <strong>Red técnica nacional</strong>
+          +80 puntos de servicio oficial en toda España.
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div class="feature-banner-img fade-up stagger-2">
+    <img src="https://store.segway.com/cdn/shop/files/p65_kickscooter_pdp_3.png?v=1689245210"
+         onerror="this.src='https://store.segway.com/cdn/shop/files/kickscooter-max-g2.png'"
+         alt="Patinete VoltMov Pro" loading="lazy">
+  </div>
+</div>
+
+<!-- WHY US -->
+<section class="why-us" id="nosotros">
+  <div style="text-align:center;max-width:600px;margin:0 auto">
+    <span class="section-label">Por qué elegirnos</span>
+    <h2 class="section-title">La movilidad del futuro,<br>disponible hoy en España</h2>
+  </div>
+  <div class="why-grid">
+    <div class="why-card fade-up">
+      <span class="why-num">01</span>
+      <span class="why-icon">🏆</span>
+      <h3>Marca líder en España</h3>
+      <p>Más de 50.000 clientes satisfechos desde Madrid hasta Barcelona. La marca número 1 en patinetes eléctricos en el mercado español.</p>
+    </div>
+    <div class="why-card fade-up stagger-1">
+      <span class="why-num">02</span>
+      <span class="why-icon">🔬</span>
+      <h3>I+D propio</h3>
+      <p>Ingeniería de vanguardia con más de 200 patentes registradas. Cada modelo pasa 1.000 horas de pruebas antes de llegar a tus manos.</p>
+    </div>
+    <div class="why-card fade-up stagger-2">
+      <span class="why-num">03</span>
+      <span class="why-icon">🌱</span>
+      <h3>Compromiso verde</h3>
+      <p>Movilidad 100% eléctrica. Packaging reciclado, programas de retoma de baterías y neutralidad de carbono en logística desde 2024.</p>
+    </div>
+    <div class="why-card fade-up stagger-1">
+      <span class="why-num">04</span>
+      <span class="why-icon">💳</span>
+      <h3>Financiación flexible</h3>
+      <p>Paga en hasta 36 cuotas sin intereses con Aplazame o Klarna. Desde 8€/mes. Aprobación en 2 minutos online.</p>
+    </div>
+    <div class="why-card fade-up stagger-2">
+      <span class="why-num">05</span>
+      <span class="why-icon">🚀</span>
+      <h3>Envío express</h3>
+      <p>Pedidos antes de las 14h, entregados al día siguiente en toda España peninsular. Seguimiento en tiempo real por SMS.</p>
+    </div>
+    <div class="why-card fade-up stagger-3">
+      <span class="why-num">06</span>
+      <span class="why-icon">🤝</span>
+      <h3>Postventa premium</h3>
+      <p>Garantía extendida de 2 años, soporte técnico 7 días a la semana y red de talleres oficiales en las principales ciudades.</p>
+    </div>
+  </div>
+</section>
+
+<!-- PROMO STRIP -->
+<div class="promo-strip">
+  <div class="promo-left">
+    <span class="section-label">Oferta limitada</span>
+    <h2 class="section-title" style="font-size:40px">KickScooter<br>MAX G2 Pro</h2>
+    <p style="color:rgba(255,255,255,0.5);font-size:15px;margin-top:8px">La oferta termina en:</p>
+    <div class="promo-timer">
+      <div class="timer-box"><span class="t-num" id="th">00</span><span class="t-lbl">Horas</span></div>
+      <div class="timer-box"><span class="t-num" id="tm">00</span><span class="t-lbl">Min</span></div>
+      <div class="timer-box"><span class="t-num" id="ts">00</span><span class="t-lbl">Seg</span></div>
+    </div>
+  </div>
+  <div class="promo-offer">
+    <div style="font-size:14px;color:var(--muted);margin-bottom:4px">Precio especial web</div>
+    <div class="promo-price-big">799€</div>
+    <div class="promo-product-name" style="text-decoration:line-through;font-size:16px;color:var(--muted)">Antes 999€ · Ahorras 200€</div>
+    <button class="btn-primary btn-lg" style="margin-top:20px" onclick="addToCart({id:99,name:'KickScooter MAX G2 Pro',price:799,badge:'sale'})">Comprar con descuento →</button>
+  </div>
+</div>
+
+<!-- COMPARISON -->
+<section class="comparison" id="comparativa">
+  <div style="text-align:center;max-width:600px;margin:0 auto 0">
+    <span class="section-label">Comparativa</span>
+    <h2 class="section-title">Elige el modelo<br>perfecto para ti</h2>
+    <p class="section-sub" style="margin:0 auto">Compara especificaciones técnicas y encuentra el patinete que mejor se adapta a tu vida.</p>
+  </div>
+  <div style="overflow-x:auto">
+  <table class="comp-table">
+    <thead>
+      <tr>
+        <th style="width:20%">Especificación</th>
+        <th>Urban Lite</th>
+        <th class="highlighted-col">MAX G2 Pro <span class="col-tag">Más popular</span></th>
+        <th>Speed X Ultra</th>
+        <th>GoRider Pro</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>Velocidad máx.</td><td>25 km/h</td><td class="highlighted-col">35 km/h</td><td>65 km/h</td><td>20 km/h</td></tr>
+      <tr><td>Autonomía</td><td>30 km</td><td class="highlighted-col">70 km</td><td>100 km</td><td>25 km</td></tr>
+      <tr><td>Peso</td><td>12 kg</td><td class="highlighted-col">19 kg</td><td>28 kg</td><td>16 kg</td></tr>
+      <tr><td>Carga máx.</td><td>100 kg</td><td class="highlighted-col">120 kg</td><td>130 kg</td><td>100 kg</td></tr>
+      <tr><td>App conectada</td><td><span class="check">✓</span></td><td class="highlighted-col"><span class="check">✓</span></td><td><span class="check">✓</span></td><td><span class="cross">✗</span></td></tr>
+      <tr><td>NFC antirrobo</td><td><span class="cross">✗</span></td><td class="highlighted-col"><span class="check">✓</span></td><td><span class="check">✓</span></td><td><span class="cross">✗</span></td></tr>
+      <tr><td>Homologación DGT</td><td><span class="check">✓</span></td><td class="highlighted-col"><span class="check">✓</span></td><td><span class="cross">✗</span></td><td><span class="check">✓</span></td></tr>
+      <tr><td>Freno regenerativo</td><td><span class="cross">✗</span></td><td class="highlighted-col"><span class="check">✓</span></td><td><span class="check">✓</span></td><td><span class="cross">✗</span></td></tr>
+      <tr><td>Certificación IP</td><td>IP54</td><td class="highlighted-col">IP55</td><td>IP55</td><td>IP54</td></tr>
+      <tr>
+        <td>Precio</td>
+        <td><strong>299€</strong></td>
+        <td class="highlighted-col"><strong style="color:var(--accent);font-size:17px">799€</strong></td>
+        <td><strong>1.299€</strong></td>
+        <td><strong>449€</strong></td>
+      </tr>
+      <tr>
+        <td></td>
+        <td><button class="btn-outline" style="font-size:12px;padding:7px 16px" onclick="addToCart({id:1,name:'Urban Lite',price:299})">Añadir</button></td>
+        <td class="highlighted-col"><button class="btn-primary" style="font-size:12px;padding:7px 16px" onclick="addToCart({id:99,name:'MAX G2 Pro',price:799,badge:'sale'})">Añadir</button></td>
+        <td><button class="btn-outline" style="font-size:12px;padding:7px 16px" onclick="addToCart({id:3,name:'Speed X Ultra',price:1299})">Añadir</button></td>
+        <td><button class="btn-outline" style="font-size:12px;padding:7px 16px" onclick="addToCart({id:4,name:'GoRider Pro',price:449})">Añadir</button></td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials">
+  <div class="section-header">
+    <div>
+      <span class="section-label">Opiniones verificadas</span>
+      <h2 class="section-title">Lo que dicen<br>nuestros clientes</h2>
+    </div>
+    <div style="display:flex;align-items:center;gap:12px">
+      <div style="text-align:right">
+        <div style="font-family:var(--font-display);font-size:36px;font-weight:800;color:var(--accent)">4.9</div>
+        <div style="font-size:12px;color:var(--muted)">de 5 · +3.200 reseñas</div>
+      </div>
+    </div>
+  </div>
+  <div class="testi-grid">
+    <div class="testi-card fade-up">
+      <div class="stars">★★★★★</div>
+      <p class="testi-text">"Llevo 6 meses usando el MAX G2 Pro para ir al trabajo en Madrid. Increíble autonomía, silencioso y la app es muy intuitiva. Totalmente recomendable para el día a día."</p>
+      <div class="testi-author">
+        <div style="width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,#00E5A0,#0080ff);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;color:#001a10;flex-shrink:0">JM</div>
+        <div>
+          <div class="testi-name">Javier Morales</div>
+          <div class="testi-loc">Madrid · MAX G2 Pro</div>
+          <div class="testi-verified">✓ Compra verificada</div>
+        </div>
+      </div>
+    </div>
+    <div class="testi-card fade-up stagger-1">
+      <div class="stars">★★★★★</div>
+      <p class="testi-text">"Compré el Urban Lite para mi hija y es perfecto. La calidad de construcción es excelente para el precio. El servicio postventa también es 10/10, me resolvieron una duda al momento."</p>
+      <div class="testi-author">
+        <div style="width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,#ff6b9d,#ff4d4d);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;color:#fff;flex-shrink:0">LP</div>
+        <div>
+          <div class="testi-name">Laura Pérez</div>
+          <div class="testi-loc">Barcelona · Urban Lite</div>
+          <div class="testi-verified">✓ Compra verificada</div>
+        </div>
+      </div>
+    </div>
+    <div class="testi-card fade-up stagger-2">
+      <div class="stars">★★★★★</div>
+      <p class="testi-text">"El Speed X Ultra es una bestia. Para recorridos largos por Valencia es perfecto. La batería dura muchísimo y la app de seguimiento en tiempo real me da mucha seguridad."</p>
+      <div class="testi-author">
+        <div style="width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,#f59e0b,#f97316);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;color:#1a0a00;flex-shrink:0">CR</div>
+        <div>
+          <div class="testi-name">Carlos Ruiz</div>
+          <div class="testi-loc">Valencia · Speed X Ultra</div>
+          <div class="testi-verified">✓ Compra verificada</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- NEWSLETTER -->
+<section class="newsletter">
+  <span class="section-label">Comunidad VoltMov</span>
+  <h2 class="section-title">Únete a +50.000 riders</h2>
+  <p class="section-sub">Recibe lanzamientos exclusivos, descuentos anticipados y guías de movilidad urbana. Sin spam, solo contenido de valor.</p>
+  <div class="nl-form">
+    <input type="email" placeholder="tu@email.com" id="nlEmail">
+    <button class="btn-primary" style="border-radius:50px;padding:10px 24px;flex-shrink:0" onclick="subscribeNL()">Suscribirme →</button>
+  </div>
+  <p style="font-size:12px;color:var(--muted2);margin-top:14px">Al suscribirte aceptas nuestra política de privacidad. Puedes darte de baja en cualquier momento.</p>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <a href="#" class="logo">Volt<span class="logo-dot">Mov</span> <span style="font-size:12px;font-weight:400;color:var(--muted)">España</span></a>
+      <p>Movilidad eléctrica premium para el mercado español. Distribuidor oficial con red de servicio técnico en toda España.</p>
+      <div style="margin-top:16px;font-size:13px;color:var(--muted)">
+        📍 Calle Gran Vía 45, Madrid 28013<br>
+        📞 +34 900 123 456 (Gratuito)<br>
+        ✉ hola@voltmov.es
+      </div>
+      <div class="footer-socials">
+        <div class="social-btn">𝕏</div>
+        <div class="social-btn">📷</div>
+        <div class="social-btn">f</div>
+        <div class="social-btn">in</div>
+        <div class="social-btn">▶</div>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Productos</h4>
+      <ul>
+        <li><a href="#">Patinetes Eléctricos</a></li>
+        <li><a href="#">eMopeds Ninebot</a></li>
+        <li><a href="#">GoKart Series</a></li>
+        <li><a href="#">Hoverboards</a></li>
+        <li><a href="#">Accesorios</a></li>
+        <li><a href="#">Recambios oficiales</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Ayuda</h4>
+      <ul>
+        <li><a href="#">Centro de ayuda</a></li>
+        <li><a href="#">Seguimiento de pedido</a></li>
+        <li><a href="#">Política de devoluciones</a></li>
+        <li><a href="#">Garantía y reparación</a></li>
+        <li><a href="#">Manual de usuario</a></li>
+        <li><a href="#">Preguntas frecuentes</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Empresa</h4>
+      <ul>
+        <li><a href="#">Sobre VoltMov</a></li>
+        <li><a href="#">Sostenibilidad</a></li>
+        <li><a href="#">Colaboraciones B2B</a></li>
+        <li><a href="#">Puntos de venta</a></li>
+        <li><a href="#">Blog</a></li>
+        <li><a href="#">Trabaja con nosotros</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2025 VoltMov España S.L. — CIF B-12345678 — Todos los derechos reservados</p>
+    <div style="display:flex;gap:20px;flex-wrap:wrap;justify-content:center">
+      <a href="#" style="font-size:12px;color:var(--muted2)">Aviso Legal</a>
+      <a href="#" style="font-size:12px;color:var(--muted2)">Privacidad</a>
+      <a href="#" style="font-size:12px;color:var(--muted2)">Cookies</a>
+      <a href="#" style="font-size:12px;color:var(--muted2)">Condiciones de venta</a>
+    </div>
+    <div class="footer-payments">
+      <span class="pay-chip">VISA</span>
+      <span class="pay-chip">MC</span>
+      <span class="pay-chip">Bizum</span>
+      <span class="pay-chip">Paypal</span>
+      <span class="pay-chip">Aplazame</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+// ─── PRODUCT DATA ───
+const products = [
+  {
+    id: 1, cat: 'patinete', badge: 'new', name: 'Urban Lite 2025',
+    brand: 'VoltMov City',
+    specs: ['25 km/h', '30 km', '12 kg'],
+    price: 299, priceOld: null,
+    img: 'https://store.segway.com/cdn/shop/files/KickScooter_E2_Plus.png?v=1689245210'
+  },
+  {
+    id: 2, cat: 'patinete', badge: 'hot', name: 'MAX G2 Pro',
+    brand: 'VoltMov Pro',
+    specs: ['35 km/h', '70 km', '19 kg'],
+    price: 799, priceOld: 999,
+    img: 'https://store.segway.com/cdn/shop/files/KickScooter_MAX_G2.png?v=1689245210'
+  },
+  {
+    id: 3, cat: 'patinete', badge: null, name: 'Speed X Ultra',
+    brand: 'VoltMov Elite',
+    specs: ['65 km/h', '100 km', '28 kg'],
+    price: 1299, priceOld: null,
+    img: 'https://store.segway.com/cdn/shop/files/KickScooter_P100S.png?v=1689245210'
+  },
+  {
+    id: 4, cat: 'patinete', badge: 'sale', name: 'GoRider Pro',
+    brand: 'VoltMov Kids+',
+    specs: ['20 km/h', '25 km', '16 kg'],
+    price: 449, priceOld: 549,
+    img: 'https://store.segway.com/cdn/shop/files/KickScooter_F30E.png?v=1689245210'
+  },
+  {
+    id: 5, cat: 'moped', badge: 'new', name: 'eMoped C80 Plus',
+    brand: 'VoltMov Moped',
+    specs: ['45 km/h', '80 km', '95 kg'],
+    price: 2499, priceOld: null,
+    img: 'https://store.segway.com/cdn/shop/files/Ninebot_eMoped_C80.png?v=1689245210'
+  },
+  {
+    id: 6, cat: 'gokart', badge: null, name: 'GoKart Pro 2',
+    brand: 'VoltMov Fun',
+    specs: ['40 km/h', '25 km', '28 kg'],
+    price: 899, priceOld: 1099,
+    img: 'https://store.segway.com/cdn/shop/files/GoKart_Pro_2.png?v=1689245210'
+  },
+  {
+    id: 7, cat: 'accesorio', badge: null, name: 'Casco Smart S1+',
+    brand: 'VoltMov Gear',
+    specs: ['LED', 'Bluetooth', 'M-XL'],
+    price: 89, priceOld: null,
+    img: 'https://store.segway.com/cdn/shop/files/Ninebot_Segway_Helmet_S1.png?v=1689245210'
+  },
+  {
+    id: 8, cat: 'accesorio', badge: 'new', name: 'Candado GPS Tracker',
+    brand: 'VoltMov Gear',
+    specs: ['GPS', 'App', '90dB'],
+    price: 49, priceOld: null,
+    img: 'https://store.segway.com/cdn/shop/files/Ninebot_Segway_Lock_L30.png?v=1689245210'
+  }
+];
+
+let cart = [];
+let wishlist = new Set();
+let currentFilter = 'todos';
+
+function buildProductHTML(p) {
+  const badgeHTML = p.badge
+    ? `<span class="prod-badge badge-${p.badge}">${p.badge==='new'?'Nuevo':p.badge==='hot'?'Popular':'Oferta'}</span>`
+    : '';
+  const oldPrice = p.priceOld
+    ? `<span class="price-old">${p.priceOld}€</span>`
+    : '';
+  const specsHTML = p.specs.map(s => `<span class="spec-pill">${s}</span>`).join('');
+  const isWishlisted = wishlist.has(p.id);
+  return `
+    <div class="product-card" data-cat="${p.cat}" data-id="${p.id}">
+      <div class="product-img">
+        ${badgeHTML}
+        <button class="wishlist-btn ${isWishlisted?'active':''}" onclick="toggleWish(${p.id},this)" title="Favorito">♡</button>
+        <img src="${p.img}" alt="${p.name}" loading="lazy"
+          onerror="this.style.display='none';this.parentElement.style.background='linear-gradient(135deg,#0f1a12,#141414)'">
+      </div>
+      <div class="product-info">
+        <div class="product-brand">${p.brand}</div>
+        <div class="product-name">${p.name}</div>
+        <div class="product-specs">${specsHTML}</div>
+        <div class="product-bottom">
+          <div>
+            <span class="product-price">${p.price.toLocaleString('es-ES')}€</span>
+            ${oldPrice}
+          </div>
+          <button class="add-btn" onclick="addToCart({id:${p.id},name:'${p.name}',price:${p.price},badge:'${p.badge||''}'})">+</button>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function renderProducts(filter) {
+  const grid = document.getElementById('productsGrid');
+  const filtered = filter === 'todos' ? products : products.filter(p => p.cat === filter);
+  grid.innerHTML = filtered.map(buildProductHTML).join('');
+}
+
+function filterProducts(cat, btn) {
+  currentFilter = cat;
+  document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  renderProducts(cat);
+}
+
+// ─── CART ───
+function addToCart(item) {
+  const existing = cart.find(c => c.id === item.id);
+  if (existing) {
+    existing.qty++;
+  } else {
+    cart.push({ ...item, qty: 1 });
+  }
+  updateCartUI();
+  showToast(`✓ ${item.name} añadido al carrito`);
+  openCart();
+}
+
+function removeFromCart(id) {
+  cart = cart.filter(c => c.id !== id);
+  updateCartUI();
+}
+
+function changeQty(id, delta) {
+  const item = cart.find(c => c.id === id);
+  if (!item) return;
+  item.qty += delta;
+  if (item.qty <= 0) cart = cart.filter(c => c.id !== id);
+  updateCartUI();
+}
+
+function updateCartUI() {
+  const total = cart.reduce((s, c) => s + c.price * c.qty, 0);
+  const count = cart.reduce((s, c) => s + c.qty, 0);
+  document.getElementById('headerCartCount').textContent = count;
+  document.getElementById('cartCountLabel').textContent = count;
+  document.getElementById('cartTotal').textContent = total.toLocaleString('es-ES', {minimumFractionDigits:2}) + '€';
+  const cartItems = document.getElementById('cartItems');
+  if (cart.length === 0) {
+    cartItems.innerHTML = '<p style="color:var(--muted);font-size:14px;text-align:center;padding:40px 0">Tu carrito está vacío</p>';
+    return;
+  }
+  cartItems.innerHTML = cart.map(item => `
+    <div class="cart-item">
+      <div class="cart-item-img">
+        <div style="width:54px;height:54px;background:var(--bg3);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:24px">⚡</div>
+      </div>
+      <div class="cart-item-info">
+        <div class="cart-item-name">${item.name}</div>
+        <div class="cart-item-price">${(item.price * item.qty).toLocaleString('es-ES')}€</div>
+        <div class="cart-item-qty">
+          <button class="qty-btn" onclick="changeQty(${item.id},-1)">−</button>
+          <span class="qty-num">${item.qty}</span>
+          <button class="qty-btn" onclick="changeQty(${item.id},1)">+</button>
+        </div>
+      </div>
+      <button onclick="removeFromCart(${item.id})" style="background:none;border:none;color:var(--muted);cursor:pointer;font-size:18px;padding:4px">✕</button>
+    </div>
+  `).join('');
+}
+
+function openCart() {
+  document.getElementById('cartDrawer').classList.add('open');
+  document.getElementById('overlay').classList.add('show');
+}
+function closeCart() {
+  document.getElementById('cartDrawer').classList.remove('open');
+  document.getElementById('overlay').classList.remove('show');
+}
+
+// ─── WISHLIST ───
+function toggleWish(id, btn) {
+  if (wishlist.has(id)) {
+    wishlist.delete(id);
+    btn.classList.remove('active');
+    btn.innerHTML = '♡';
+  } else {
+    wishlist.add(id);
+    btn.classList.add('active');
+    btn.innerHTML = '♥';
+    showToast('Añadido a favoritos ♡');
+  }
+}
+
+// ─── MOBILE MENU ───
+function openMobileMenu() { document.getElementById('mobileMenu').classList.add('open'); }
+function closeMobileMenu() { document.getElementById('mobileMenu').classList.remove('open'); }
+
+// ─── TOAST ───
+let toastTimeout;
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimeout);
+  toastTimeout = setTimeout(() => t.classList.remove('show'), 2800);
+}
+
+// ─── SCROLL HEADER ───
+window.addEventListener('scroll', () => {
+  const h = document.getElementById('mainHeader');
+  if (window.scrollY > 60) h.classList.add('scrolled');
+  else h.classList.remove('scrolled');
+});
+
+// ─── FADE-UP INTERSECTION ───
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+// ─── COUNTDOWN TIMER ───
+function updateTimer() {
+  const now = new Date();
+  const end = new Date(now);
+  end.setHours(23, 59, 59, 999);
+  const diff = end - now;
+  const h = Math.floor(diff / 3600000);
+  const m = Math.floor((diff % 3600000) / 60000);
+  const s = Math.floor((diff % 60000) / 1000);
+  document.getElementById('th').textContent = String(h).padStart(2,'0');
+  document.getElementById('tm').textContent = String(m).padStart(2,'0');
+  document.getElementById('ts').textContent = String(s).padStart(2,'0');
+}
+updateTimer();
+setInterval(updateTimer, 1000);
+
+// ─── NEWSLETTER ───
+function subscribeNL() {
+  const email = document.getElementById('nlEmail').value;
+  if (!email || !email.includes('@')) { showToast('Por favor, introduce un email válido'); return; }
+  showToast('¡Suscripción confirmada! Revisa tu email 📬');
+  document.getElementById('nlEmail').value = '';
+}
+
+// ─── INIT ───
+renderProducts('todos');
+</script>
+</body>
+</html>
